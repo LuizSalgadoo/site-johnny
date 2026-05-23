@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Nova Guerra Fria Digital — Johnny Coelho A.I</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #080808;
+      --deep: #111111;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --muted: #555;
+      --mid: #999;
+      --white: #f2f0eb;
+      --yellow: #FFE000;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* HEADER */
+    header { position: sticky; top: 0; z-index: 100; background: var(--black); border-bottom: 1px solid var(--border); }
+    .header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 60px; }
+    .site-name { font-family: var(--font-display); font-size: 22px; font-weight: 900; letter-spacing: -0.02em; }
+    .site-name span { color: var(--yellow); }
+    nav { display: flex; gap: 32px; }
+    nav a { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); transition: color 0.2s; }
+    nav a:hover, nav a.active { color: var(--yellow); }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mid); transition: color 0.2s; }
+    .back-link:hover { color: var(--yellow); }
+
+    /* ARTICLE LAYOUT */
+    .article-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 1fr 320px; gap: 64px; }
+
+    /* HERO */
+    .article-hero { padding: 64px 32px 0; max-width: 1200px; margin: 0 auto; }
+    .article-hero-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .tag { display: inline-block; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; border: 1px solid currentColor; }
+    .tag--yellow { color: var(--yellow); border-color: var(--yellow); }
+    .tag--white { color: var(--white); border-color: var(--border); }
+    .tag--muted { color: var(--mid); border-color: var(--border); }
+    .article-date { font-family: var(--font-mono); font-size: 11px; color: var(--mid); letter-spacing: 0.1em; }
+    .article-headline { font-family: var(--font-display); font-size: clamp(38px, 5.5vw, 72px); font-weight: 900; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 24px; }
+    .article-headline em { font-style: italic; color: var(--yellow); }
+    .article-dek { font-size: 19px; font-weight: 300; color: var(--mid); line-height: 1.65; max-width: 700px; margin-bottom: 32px; }
+    .article-byline { display: flex; align-items: center; gap: 16px; padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 0; }
+    .byline-avatar { width: 40px; height: 40px; background: var(--surface); border: 2px solid var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--yellow); flex-shrink: 0; }
+    .byline-name { font-size: 14px; font-weight: 600; }
+    .byline-role { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.1em; margin-top: 2px; }
+    .byline-reading { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.08em; margin-left: auto; }
+
+    /* COVER IMAGE */
+    .article-cover { width: 100%; aspect-ratio: 16/7; background: var(--surface); position: relative; overflow: hidden; margin: 0; }
+    .article-cover-inner { position: absolute; inset: 0; background: linear-gradient(135deg, #111 0%, #1a1a1a 50%, #111 100%); display: flex; align-items: center; justify-content: center; }
+    .cover-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.3; }
+    .cover-icon { font-size: 96px; opacity: 0.12; z-index: 1; }
+    .cover-accent { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--yellow); }
+    .article-cover-caption { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; padding: 8px 0; }
+
+    /* ARTICLE BODY */
+    .article-main { padding: 48px 0 96px; }
+    .article-body { font-size: 17px; font-weight: 300; line-height: 1.8; color: #d4d0c8; }
+    .article-body p { margin-bottom: 24px; }
+    .article-body h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--white); line-height: 1.2; margin: 48px 0 20px; letter-spacing: -0.01em; }
+    .article-body h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--white); margin: 36px 0 16px; }
+    .article-body strong { color: var(--white); font-weight: 600; }
+
+    .pullquote { border-left: 3px solid var(--yellow); padding: 20px 28px; margin: 40px 0; background: var(--deep); }
+    .pullquote p { font-family: var(--font-display); font-size: 22px; font-style: italic; line-height: 1.4; color: var(--white); margin: 0 0 12px; }
+    .pullquote cite { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    .data-box { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--yellow); padding: 28px; margin: 40px 0; }
+    .data-box-title { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 20px; }
+    .data-row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .data-row:last-child { border-bottom: none; }
+    .data-label { font-size: 13px; color: var(--mid); }
+    .data-value { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--white); }
+    .data-sub { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-left: 8px; }
+
+    /* SIDEBAR */
+    .article-sidebar { padding: 48px 0 96px; }
+    .sidebar-section { margin-bottom: 40px; }
+    .sidebar-section-title { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .related-item { padding: 16px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .related-item:hover .related-headline { color: var(--yellow); }
+    .related-headline { font-family: var(--font-display); font-size: 15px; font-weight: 700; line-height: 1.3; margin: 6px 0 4px; transition: color 0.2s; }
+    .related-meta { font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
+
+    .newsletter-box { background: var(--deep); border: 1px solid var(--border); border-top: 3px solid var(--yellow); padding: 24px; }
+    .nl-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
+    .nl-desc { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.6; margin-bottom: 16px; }
+    .nl-input { width: 100%; background: var(--surface); border: 1px solid var(--border); padding: 10px 14px; font-family: var(--font-body); font-size: 13px; color: var(--white); margin-bottom: 8px; outline: none; }
+    .nl-input:focus { border-color: var(--yellow); }
+    .nl-input::placeholder { color: var(--muted); }
+    .nl-btn { width: 100%; background: var(--yellow); border: none; padding: 10px; font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--black); cursor: pointer; transition: background 0.2s; }
+    .nl-btn:hover { background: var(--white); }
+
+    /* FOOTER */
+    .article-footer-strip { background: var(--deep); border-top: 2px solid var(--yellow); padding: 32px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-logo { font-family: var(--font-display); font-size: 20px; font-weight: 900; }
+    .footer-logo span { color: var(--yellow); }
+    .footer-copy { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
+
+    /* PROGRESS */
+    .reading-progress { position: fixed; top: 60px; left: 0; height: 2px; background: var(--yellow); width: 0%; z-index: 200; transition: width 0.1s; }
+
+    @media (max-width: 900px) {
+      .article-wrapper { grid-template-columns: 1fr; }
+      .article-sidebar { padding-top: 0; }
+      .article-hero, .article-wrapper { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="reading-progress" id="progress"></div>
+
+<header>
+  <div class="header-top">
+    <a href="index.html" class="site-name">Johnny Coelho <span>A.I</span></a>
+    <nav>
+      <a href="index.html#noticias">Notícias</a>
+      <a href="index.html#educacao">Educação</a>
+      <a href="index.html#negocios">Negócios</a>
+      <a href="index.html#newsletter">Newsletter</a>
+    </nav>
+    <a href="index.html" class="back-link">← Voltar</a>
+  </div>
+</header>
+
+<!-- ARTICLE HERO -->
+<div class="article-hero">
+  <div class="article-hero-meta">
+    <span class="tag tag--yellow">Geopolítica</span>
+    <span class="tag tag--white">Análise Especial</span>
+    <span class="article-date">16 de Maio, 2026 · Atualizado às 11:30</span>
+  </div>
+  <h1 class="article-headline">
+    A Nova Guerra Fria <em>Digital</em>:<br />
+    Como EUA e China estão<br />
+    partindo a internet ao meio
+  </h1>
+  <p class="article-dek">
+    Enquanto governos debatem regulação e diplomatas negociam acordos, dois ecossistemas tecnológicos completamente distintos ganham forma. O mundo não vai escolher lados — ele já está escolhendo.
+  </p>
+  <div class="article-byline">
+    <div class="byline-avatar">M</div>
+    <div>
+      <div class="byline-name">Marcos Vidal</div>
+      <div class="byline-role">Editor de Geopolítica e Tecnologia</div>
+    </div>
+    <div class="byline-reading">12 min de leitura</div>
+  </div>
+</div>
+
+<div class="article-cover">
+  <div class="article-cover-inner">
+    <div class="cover-grid"></div>
+    <div class="cover-icon">🌐</div>
+  </div>
+  <div class="cover-accent"></div>
+</div>
+<div style="max-width:1200px;margin:0 auto;padding:0 32px;">
+  <div class="article-cover-caption">Ilustração conceitual: dois hemisférios digitais em formação. Crédito: Redação JC A.I</div>
+</div>
+
+<div class="article-wrapper">
+
+  <!-- MAIN CONTENT -->
+  <main class="article-main">
+    <div class="article-body">
+
+      <p>Em 2018, quando o governo dos Estados Unidos colocou a Huawei na lista negra de entidades restritas, poucos imaginavam que aquele seria o primeiro domino de uma reconfiguração geopolítica sem precedentes na história da tecnologia. Oito anos depois, o que começou como uma disputa comercial se transformou em algo muito maior: a bifurcação do mundo digital.</p>
+
+      <p>Hoje, um smartphone fabricado na China roda um sistema operacional diferente, usa chips de fabricação diferente, acessa aplicativos diferentes e se conecta a uma infraestrutura de nuvem completamente separada daquela usada por um dispositivo fabricado no Ocidente. Não é ficção científica. É o presente.</p>
+
+      <h2>Dois sistemas, dois mundos</h2>
+
+      <p>A separação ocorre em camadas. Na base, os semicondutores: os EUA restringiram a exportação de chips avançados para a China, forçando Pequim a acelerar seu programa de autossuficiência. A SMIC, principal fabricante de chips chinesa, já produz em escala o equivalente ao processo de 7 nanômetros — algo que especialistas consideravam impossível há três anos sem acesso a equipamentos holandeses da ASML.</p>
+
+      <p>Na camada de software, o descolamento é ainda mais visível. Com o bloqueio ao Google Mobile Services, a China desenvolveu seu próprio ecossistema: o Huawei AppGallery, o sistema operacional HarmonyOS e uma constelação de aplicativos locais que já somam mais de 5 bilhões de downloads fora da China — principalmente no Sudeste Asiático, África e partes do Oriente Médio.</p>
+
+      <div class="pullquote">
+        <p>"Não estamos mais falando de uma guerra comercial. Estamos assistindo ao nascimento de duas internets paralelas, com valores, regras e empresas dominantes completamente distintos."</p>
+        <cite>— Dr. Kai-Fu Lee, presidente do Sinovation Ventures, em entrevista ao FT em março de 2026</cite>
+      </div>
+
+      <p>Na inteligência artificial, a divisão é igualmente profunda. Os modelos americanos — GPT-5, Claude 4, Gemini — dominam o Ocidente e grande parte do mundo em desenvolvimento. Os modelos chineses — DeepSeek V3, Qwen 3 da Alibaba, o Ernie 5.0 da Baidu — conquistam mercados onde restrições políticas ou simplesmente preço fazem a diferença.</p>
+
+      <h2>Por que isso importa para o Brasil?</h2>
+
+      <p>O Brasil ocupa uma posição singular nessa disputa. Como a maior economia da América Latina e um dos maiores mercados de tecnologia do mundo, o país é um campo de batalha ativo entre as duas potências digitais — sem que a maioria dos cidadãos perceba.</p>
+
+      <p>A infraestrutura de telecomunicações 5G brasileira é o exemplo mais claro. Após meses de debate, o governo federal optou por um modelo misto: operadoras nacionais podem usar equipamentos Huawei em redes não críticas, mas o núcleo da infraestrutura deve seguir padrões ocidentais. É uma solução pragmática — e profundamente instável.</p>
+
+      <div class="data-box">
+        <div class="data-box-title">Brasil na disputa tecnológica global — 2026</div>
+        <div class="data-row">
+          <span class="data-label">Participação de equipamentos chineses no 5G nacional</span>
+          <span class="data-value">38%<span class="data-sub">das torres ativas</span></span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Investimento chinês em tech brasileira (2023–2026)</span>
+          <span class="data-value">R$ 47bi</span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Modelos de IA americanos em uso em empresas BR</span>
+          <span class="data-value">71%</span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Apps chineses no top 20 mais baixados no Brasil</span>
+          <span class="data-value">9<span class="data-sub">incluindo TikTok, Shein e AliExpress</span></span>
+        </div>
+      </div>
+
+      <p>O problema do modelo misto é que ele não é sustentável a longo prazo. Sistemas de telecomunicações são interdependentes por natureza — separar "partes críticas" de "partes não críticas" é uma abstração que engenheiros de segurança questionam. Uma vulnerabilidade em uma camada pode comprometer toda a rede.</p>
+
+      <h2>A batalha pelos padrões técnicos</h2>
+
+      <p>Menos visível, mas igualmente crucial, é a guerra pelos padrões técnicos internacionais. Organizações como a ITU (União Internacional de Telecomunicações) e a ISO se tornaram campos de batalha diplomáticos onde EUA e China disputam quais protocolos, formatos e arquiteturas vão definir a tecnologia das próximas décadas.</p>
+
+      <p>A China tem aumentado sistematicamente sua presença nessas organizações. Em 2026, técnicos chineses presidem ou co-presidem 11 dos 25 grupos de trabalho técnico mais relevantes da ITU — um avanço de mais de 300% em relação a 2015. Os EUA, que por décadas assumiram sua hegemonia nesses fóruns como garantida, agora travam uma luta para manter influência.</p>
+
+      <p>O que está em jogo? Quem define os padrões de IA para aplicações governamentais? Quais protocolos de criptografia são considerados "seguros"? Como dados biométricos são armazenados e processados globalmente? As respostas a essas perguntas determinarão não apenas como a tecnologia funciona, mas quais valores ela incorpora.</p>
+
+      <h2>O que vem a seguir</h2>
+
+      <p>Especialistas divergem sobre o desfecho. Há quem acredite que a bifurcação é irreversível e que o mundo simplesmente se adaptará a dois ecossistemas paralelos — assim como países convivem com sistemas de medição diferentes (imperial e métrico). Outros, mais otimistas, apostam que a interdependência econômica vai forçar algum nível de reintegração.</p>
+
+      <p>O que parece certo é que países como o Brasil terão cada vez menos o luxo de adiar a escolha. Parcerias comerciais, acordos de segurança e dependências tecnológicas vão, gradualmente, empurrar países para um lado ou outro. A neutralidade digital — se é que ela já existiu — está se tornando uma posição cada vez mais difícil de sustentar.</p>
+
+      <p>Para empresas brasileiras, a mensagem prática é clara: diversifique. Dependência tecnológica de qualquer fornecedor único — seja americano ou chinês — é um risco geopolítico que poucas organizações estão mapeando em suas análises de risco corporativo. O custo de uma posição bem pensada agora é infinitamente menor que o custo de uma transição forçada no futuro.</p>
+
+      <div class="pullquote">
+        <p>"O Brasil tem uma janela de oportunidade única: ser o país que desenvolve soluções interoperáveis entre os dois ecossistemas. Mas essa janela não ficará aberta para sempre."</p>
+        <cite>— Dra. Renata Camargo, pesquisadora do FGV-CPDOC e autora de "Soberania Digital"</cite>
+      </div>
+
+      <p>A nova guerra fria digital não vai ser decidida em batalhas militares nem em sanções econômicas. Vai ser decidida chip por chip, protocolo por protocolo, linha de código por linha de código. E, ao contrário da guerra fria do século XX, esta não tem um muro que possa ser derrubado para marcar o seu fim.</p>
+
+    </div>
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Leia também</div>
+
+      <div class="related-item">
+        <span class="tag tag--muted">Tecnologia</span>
+        <h4 class="related-headline">TSMC investe US$ 40 bi em fábricas nos EUA: o que muda para o mercado global de chips</h4>
+        <div class="related-meta">14 Mai, 2026 · 8 min</div>
+      </div>
+
+      <div class="related-item">
+        <span class="tag tag--muted">Geopolítica</span>
+        <h4 class="related-headline">Índia se torna o terceiro polo tecnológico global — e quer jogar dos dois lados</h4>
+        <div class="related-meta">12 Mai, 2026 · 10 min</div>
+      </div>
+
+      <div class="related-item">
+        <span class="tag tag--muted">Regulação</span>
+        <h4 class="related-headline">O que é o "splinternet" e por que governos europeus estão cada vez mais preocupados</h4>
+        <div class="related-meta">09 Mai, 2026 · 6 min</div>
+      </div>
+
+      <div class="related-item">
+        <span class="tag tag--muted">Brasil</span>
+        <h4 class="related-headline">Estratégia Nacional de IA: o que o plano do governo federal prevê para 2030</h4>
+        <div class="related-meta">05 Mai, 2026 · 9 min</div>
+      </div>
+    </div>
+
+    <div class="newsletter-box">
+      <div class="nl-title">Análises como essa, toda semana</div>
+      <p class="nl-desc">Geopolítica, tecnologia e negócios — sem jargão, sem paywalls.</p>
+      <input class="nl-input" type="email" placeholder="seu@email.com" />
+      <button class="nl-btn">Assinar grátis</button>
+    </div>
+  </aside>
+
+</div>
+
+<div class="article-footer-strip">
+  <a href="index.html" class="footer-logo">Johnny Coelho <span>A.I</span></a>
+  <div class="footer-copy">© 2026 Johnny Coelho A.I — Todos os direitos reservados.</div>
+</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progress').style.width = scrolled + '%';
+  });
+</script>
+</body>
+</html>

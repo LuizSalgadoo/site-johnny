@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IA e a Crise Hídrica — Johnny Coelho A.I</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #080808; --deep: #111111; --surface: #1a1a1a; --border: #2a2a2a;
+      --muted: #555; --mid: #999; --white: #f2f0eb; --yellow: #FFE000;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    header { position: sticky; top: 0; z-index: 100; background: var(--black); border-bottom: 1px solid var(--border); }
+    .header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 60px; }
+    .site-name { font-family: var(--font-display); font-size: 22px; font-weight: 900; letter-spacing: -0.02em; }
+    .site-name span { color: var(--yellow); }
+    nav { display: flex; gap: 32px; }
+    nav a { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); transition: color 0.2s; }
+    nav a:hover { color: var(--yellow); }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mid); transition: color 0.2s; }
+    .back-link:hover { color: var(--yellow); }
+
+    .tag { display: inline-block; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; border: 1px solid currentColor; }
+    .tag--yellow { color: var(--yellow); border-color: var(--yellow); }
+    .tag--white { color: var(--white); border-color: var(--border); }
+    .tag--muted { color: var(--mid); border-color: var(--border); }
+    .tag--green { color: #4ade80; border-color: #4ade80; }
+
+    .article-hero { padding: 64px 32px 0; max-width: 1200px; margin: 0 auto; }
+    .article-hero-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .article-date { font-family: var(--font-mono); font-size: 11px; color: var(--mid); letter-spacing: 0.1em; }
+    .article-headline { font-family: var(--font-display); font-size: clamp(38px, 5.5vw, 72px); font-weight: 900; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 24px; }
+    .article-headline em { font-style: italic; color: var(--yellow); }
+    .article-dek { font-size: 19px; font-weight: 300; color: var(--mid); line-height: 1.65; max-width: 700px; margin-bottom: 32px; }
+    .article-byline { display: flex; align-items: center; gap: 16px; padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .byline-avatar { width: 40px; height: 40px; background: var(--surface); border: 2px solid var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--yellow); flex-shrink: 0; }
+    .byline-name { font-size: 14px; font-weight: 600; }
+    .byline-role { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.1em; margin-top: 2px; }
+    .byline-reading { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.08em; margin-left: auto; }
+
+    .article-cover { width: 100%; aspect-ratio: 16/7; background: var(--surface); position: relative; overflow: hidden; }
+    .article-cover-inner { position: absolute; inset: 0; background: linear-gradient(160deg, #080f0a 0%, #0d1f15 50%, #080808 100%); display: flex; align-items: center; justify-content: center; }
+    .cover-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(74,222,128,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.06) 1px, transparent 1px); background-size: 60px 60px; }
+    .cover-icon { font-size: 96px; opacity: 0.12; z-index: 1; }
+    .cover-accent { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--yellow); }
+    .cover-caption { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; padding: 8px 0; }
+
+    .article-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 1fr 320px; gap: 64px; }
+    .article-main { padding: 48px 0 96px; }
+    .article-body { font-size: 17px; font-weight: 300; line-height: 1.8; color: #d4d0c8; }
+    .article-body p { margin-bottom: 24px; }
+    .article-body h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--white); line-height: 1.2; margin: 48px 0 20px; letter-spacing: -0.01em; }
+    .article-body h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--white); margin: 36px 0 16px; }
+    .article-body strong { color: var(--white); font-weight: 600; }
+    .article-body ul { margin: 0 0 24px 0; padding: 0; list-style: none; }
+    .article-body ul li { padding: 8px 0 8px 20px; border-bottom: 1px solid var(--border); position: relative; font-size: 15px; color: #c8c4bc; }
+    .article-body ul li::before { content: '◆'; position: absolute; left: 0; color: var(--yellow); font-size: 8px; top: 12px; }
+
+    .pullquote { border-left: 3px solid var(--yellow); padding: 20px 28px; margin: 40px 0; background: var(--deep); }
+    .pullquote p { font-family: var(--font-display); font-size: 22px; font-style: italic; line-height: 1.4; color: var(--white); margin: 0 0 12px; }
+    .pullquote cite { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    .data-box { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--yellow); padding: 28px; margin: 40px 0; }
+    .data-box-title { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 20px; }
+    .data-row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .data-row:last-child { border-bottom: none; }
+    .data-label { font-size: 13px; color: var(--mid); }
+    .data-value { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--white); }
+    .data-sub { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-left: 8px; }
+
+    /* CASE STUDY BOX */
+    .case-box { border: 1px solid var(--border); padding: 0; margin: 40px 0; overflow: hidden; }
+    .case-header { background: var(--surface); padding: 16px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+    .case-num { font-family: var(--font-display); font-size: 36px; font-weight: 900; color: var(--yellow); line-height: 1; }
+    .case-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); }
+    .case-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; }
+    .case-body { padding: 20px 24px; font-size: 14px; color: var(--mid); line-height: 1.7; }
+    .case-result { background: var(--deep); padding: 12px 24px; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border); }
+    .case-result-value { font-family: var(--font-display); font-size: 28px; font-weight: 900; color: var(--yellow); }
+    .case-result-label { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    .article-sidebar { padding: 48px 0 96px; }
+    .sidebar-section { margin-bottom: 40px; }
+    .sidebar-section-title { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .related-item { padding: 16px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .related-item:hover .related-headline { color: var(--yellow); }
+    .related-headline { font-family: var(--font-display); font-size: 15px; font-weight: 700; line-height: 1.3; margin: 6px 0 4px; transition: color 0.2s; }
+    .related-meta { font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
+
+    .stat-highlight { background: var(--surface); border: 1px solid var(--border); padding: 20px; margin-bottom: 16px; }
+    .sh-value { font-family: var(--font-display); font-size: 48px; font-weight: 900; color: var(--yellow); line-height: 1; }
+    .sh-label { font-size: 13px; font-weight: 300; color: var(--mid); margin-top: 4px; }
+
+    .newsletter-box { background: var(--deep); border: 1px solid var(--border); border-top: 3px solid var(--yellow); padding: 24px; }
+    .nl-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
+    .nl-desc { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.6; margin-bottom: 16px; }
+    .nl-input { width: 100%; background: var(--surface); border: 1px solid var(--border); padding: 10px 14px; font-family: var(--font-body); font-size: 13px; color: var(--white); margin-bottom: 8px; outline: none; }
+    .nl-input:focus { border-color: var(--yellow); }
+    .nl-input::placeholder { color: var(--muted); }
+    .nl-btn { width: 100%; background: var(--yellow); border: none; padding: 10px; font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--black); cursor: pointer; transition: background 0.2s; }
+    .nl-btn:hover { background: var(--white); }
+
+    .article-footer-strip { background: var(--deep); border-top: 2px solid var(--yellow); padding: 32px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-logo { font-family: var(--font-display); font-size: 20px; font-weight: 900; }
+    .footer-logo span { color: var(--yellow); }
+    .footer-copy { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
+    .reading-progress { position: fixed; top: 60px; left: 0; height: 2px; background: var(--yellow); width: 0%; z-index: 200; transition: width 0.1s; }
+
+    @media (max-width: 900px) {
+      .article-wrapper { grid-template-columns: 1fr; }
+      .article-sidebar { padding-top: 0; }
+      .article-hero, .article-wrapper { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="reading-progress" id="progress"></div>
+
+<header>
+  <div class="header-top">
+    <a href="index.html" class="site-name">Johnny Coelho <span>A.I</span></a>
+    <nav>
+      <a href="index.html#noticias">Notícias</a>
+      <a href="index.html#educacao">Educação</a>
+      <a href="index.html#negocios">Negócios</a>
+      <a href="index.html#newsletter">Newsletter</a>
+    </nav>
+    <a href="index.html" class="back-link">← Voltar</a>
+  </div>
+</header>
+
+<div class="article-hero">
+  <div class="article-hero-meta">
+    <span class="tag tag--yellow">Tecnologia & Saúde</span>
+    <span class="tag tag--green">Recursos Essenciais</span>
+    <span class="article-date">16 de Maio, 2026 · Atualizado às 10:00</span>
+  </div>
+  <h1 class="article-headline">
+    A IA que prevê<br />
+    secas com <em>92%</em><br />
+    de precisão
+  </h1>
+  <p class="article-dek">
+    Pesquisadores brasileiros e da NASA desenvolveram um modelo de inteligência artificial capaz de antecipar crises hídricas com até 14 meses de antecedência — e pode mudar para sempre como gerenciamos a água, a saúde pública e os alimentos no planeta.
+  </p>
+  <div class="article-byline">
+    <div class="byline-avatar">C</div>
+    <div>
+      <div class="byline-name">Camila Prates</div>
+      <div class="byline-role">Repórter de Ciência, Saúde e Meio Ambiente</div>
+    </div>
+    <div class="byline-reading">11 min de leitura</div>
+  </div>
+</div>
+
+<div class="article-cover">
+  <div class="article-cover-inner">
+    <div class="cover-grid"></div>
+    <div class="cover-icon">💧</div>
+  </div>
+  <div class="cover-accent"></div>
+</div>
+<div style="max-width:1200px;margin:0 auto;padding:0 32px;">
+  <div class="cover-caption">Reservatório Cantareira, São Paulo — nível histórico em monitoramento por satélite. Crédito: INPE / NASA Earthdata</div>
+</div>
+
+<div class="article-wrapper">
+  <main class="article-main">
+    <div class="article-body">
+
+      <p>Em janeiro de 2025, um sistema de inteligência artificial desenvolvido em parceria entre o INPE, a UNICAMP e a divisão de Earth Science da NASA emitiu um alerta silencioso: o Sistema Cantareira, que abastece 8,8 milhões de pessoas na Grande São Paulo, entraria em colapso crítico em novembro do mesmo ano — com 87% de probabilidade.</p>
+
+      <p>O alerta foi levado a sério. Pela primeira vez na história do saneamento brasileiro, gestores da Sabesp e do governo estadual tomaram medidas preventivas com quase um ano de antecedência. O resultado: o Cantareira chegou a novembro com 34% da capacidade — crítico, mas gerenciável. Sem a antecipação, projeções retrospectivas sugerem que o sistema teria chegado a menos de 8%.</p>
+
+      <p>Essa história ainda não foi contada em sua totalidade para o público geral. Mas ela representa uma das aplicações mais consequentes de IA que já ocorreram no Brasil.</p>
+
+      <h2>Como o modelo funciona</h2>
+
+      <p>O sistema, batizado internamente de HydroSense BR, combina dados de 14 fontes distintas em tempo quase real: imagens de satélite de resolução sub-métrica, sensores de umidade do solo em 2.300 pontos distribuídos pelo país, dados históricos de precipitação desde 1950, índices oceânicos como El Niño/La Niña e ITCZ, e — surpreendentemente — padrões de consumo de energia em cidades como proxy para demanda hídrica.</p>
+
+      <p>O modelo de base é um Transformer adaptado para séries temporais geoespaciais, treinado em 70 anos de dados climáticos brasileiros digitalizados. O que o diferencia de sistemas anteriores é a janela de predição: enquanto modelos convencionais são confiáveis para 30 a 90 dias, o HydroSense BR opera com alta precisão em horizontes de 6 a 14 meses.</p>
+
+      <div class="pullquote">
+        <p>"Pela primeira vez temos uma ferramenta que nos permite sair da posição reativa e entrar numa lógica de gestão antecipada. Isso não é apenas tecnológico — é uma mudança de paradigma de governança."</p>
+        <cite>— Dr. Paulo Moutinho, pesquisador sênior do INPE e co-desenvolvedor do HydroSense BR</cite>
+      </div>
+
+      <p>A precisão de 92% foi medida em backtesting — o modelo foi treinado com dados até 2020 e seus alertas para 2021–2024 foram comparados com o que de fato ocorreu. Em cada evento de seca moderada ou severa registrado no período, o sistema teria emitido alerta com antecedência superior a seis meses em 92% dos casos.</p>
+
+      <h2>O elo com a saúde pública</h2>
+
+      <p>A conexão entre crise hídrica e saúde pública é mais direta do que a maioria imagina. Segundo dados do Ministério da Saúde, surtos de doenças de veiculação hídrica — leptospirose, hepatite A, diarreia aguda — aumentam em média 340% nos 60 dias que se seguem a eventos de escassez severa em regiões urbanas.</p>
+
+      <p>Isso acontece por uma combinação perversa de fatores: populações vulneráveis recorrem a fontes alternativas de abastecimento (rios, córregos, cisternas improvisadas), o saneamento básico é sobrecarregado, e a desidratação crônica agrava condições pré-existentes em idosos e crianças.</p>
+
+      <p>A antecipação proporcionada pelo HydroSense BR tem implicações diretas para sistemas de saúde. Com 14 meses de aviso prévio, secretarias municipais de saúde podem:</p>
+
+      <ul>
+        <li>Estocar medicamentos, soros e kits de hidratação oral com antecedência suficiente para evitar desabastecimento</li>
+        <li>Reforçar agentes comunitários de saúde em regiões de maior risco antes do pico da crise</li>
+        <li>Coordenar campanhas de vacinação contra hepatite A antes do período de maior exposição</li>
+        <li>Implementar protocolos de água potável de emergência sem o caos logístico das intervenções reativas</li>
+        <li>Alertar hospitais para preparar leitos e insumos para o aumento previsível de internações</li>
+      </ul>
+
+      <div class="data-box">
+        <div class="data-box-title">Impacto estimado — implantação nacional do HydroSense BR</div>
+        <div class="data-row">
+          <span class="data-label">Redução estimada em surtos de doenças hídricas</span>
+          <span class="data-value">−58%<span class="data-sub">com antecipação de 6+ meses</span></span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Economia anual estimada em saúde pública</span>
+          <span class="data-value">R$ 3,2bi</span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Municípios cobertos pelo sistema atualmente</span>
+          <span class="data-value">1.847<span class="data-sub">de 5.570 totais</span></span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Precisão de alerta em janela de 14 meses</span>
+          <span class="data-value">92%</span>
+        </div>
+      </div>
+
+      <h2>Três casos reais de uso</h2>
+
+      <div class="case-box">
+        <div class="case-header">
+          <div class="case-num">01</div>
+          <div>
+            <div class="case-label">Caso de Uso · Nordeste</div>
+            <div class="case-title">Semiárido baiano: 14 meses de antecipação salva safra e evita migração</div>
+          </div>
+        </div>
+        <div class="case-body">Em março de 2025, o sistema identificou padrão de seca severa para o sertão baiano entre julho e outubro. Prefeituras da região, alertadas com antecedência, negociaram com o Dnocs a liberação preventiva de água dos açudes e ativaram cisternas rurais do Programa 1 Milhão de Cisternas antes do início da estiagem. Pequenos agricultores que em anos anteriores perderiam suas plantações completamente conseguiram salvar ao menos 60% da produção de feijão e milho.</div>
+        <div class="case-result">
+          <div class="case-result-value">−82%</div>
+          <div class="case-result-label">na migração involuntária de famílias rurais vs. seca de 2021</div>
+        </div>
+      </div>
+
+      <div class="case-box">
+        <div class="case-header">
+          <div class="case-num">02</div>
+          <div>
+            <div class="case-label">Caso de Uso · Sudeste</div>
+            <div class="case-title">Grande São Paulo: gestão proativa evita racionamento de emergência</div>
+          </div>
+        </div>
+        <div class="case-body">O caso do Cantareira em 2025, descrito na abertura deste artigo. Com base no alerta do HydroSense BR, a Sabesp implementou um programa de redução de pressão noturna nas redes, campanhas de uso consciente e obras emergenciais de interligação com o Sistema Alto Tietê — ações que em 2015 (sem a antecipação) só foram ativadas quando o sistema já estava em colapso operacional.</div>
+        <div class="case-result">
+          <div class="case-result-value">8,8M</div>
+          <div class="case-result-label">pessoas abastecidas sem racionamento em período crítico</div>
+        </div>
+      </div>
+
+      <div class="case-box">
+        <div class="case-header">
+          <div class="case-num">03</div>
+          <div>
+            <div class="case-label">Caso de Uso · Norte</div>
+            <div class="case-title">Amazônia: alerta precoce de seca fluvial protege comunidades ribeirinhas</div>
+          </div>
+        </div>
+        <div class="case-body">O rio Negro atingiu nível histórico de seca em setembro de 2025 — mas diferente de 2023, quando a crise pegou autoridades de surpresa, desta vez a Defesa Civil do Amazonas já havia pré-posicionado embarcações e estoques de alimentos e medicamentos em 23 comunidades ribeirinhas identificadas como as mais vulneráveis pelo modelo. O acesso a água potável foi mantido por toda a população afetada durante o pico da seca.</div>
+        <div class="case-result">
+          <div class="case-result-value">0</div>
+          <div class="case-result-label">mortes por desidratação ou doenças hídricas nas comunidades monitoradas</div>
+        </div>
+      </div>
+
+      <h2>O desafio da escala — e da equidade</h2>
+
+      <p>O maior obstáculo para a expansão do HydroSense BR não é tecnológico. É político e estrutural. O sistema atualmente cobre 1.847 dos 5.570 municípios brasileiros — uma cobertura de 33%, que não por acidente coincide com os municípios com maior acesso à internet de alta velocidade e com equipes técnicas capazes de interpretar e agir sobre os alertas.</p>
+
+      <p>Os 67% restantes — incluindo a maior parte dos municípios do Semiárido nordestino e da Amazônia, que paradoxalmente são as regiões mais vulneráveis a crises hídricas — ficam de fora justamente porque carecem da infraestrutura digital para receber e processar os dados.</p>
+
+      <p>Há uma ironia cruel aqui: as comunidades que mais precisam da tecnologia são as que menos têm acesso a ela. E sem intervenção ativa do governo federal, a expansão do sistema vai replicar as mesmas desigualdades que já estruturam o acesso a saneamento básico no Brasil.</p>
+
+      <div class="pullquote">
+        <p>"Não faz sentido termos a melhor IA de predição hídrica do mundo se ela funciona apenas onde o problema já é menos grave. A expansão precisa ser obrigatoriamente orientada pela vulnerabilidade, não pela conectividade."</p>
+        <cite>— Raquel Rolnik, urbanista e ex-Relatora da ONU para o Direito à Moradia Adequada</cite>
+      </div>
+
+      <h2>O futuro: IA como infraestrutura de sobrevivência</h2>
+
+      <p>O HydroSense BR é apenas o início de uma nova categoria de aplicações de IA que pesquisadores chamam de "sistemas de suporte à vida planetária". Nos próximos anos, modelos similares estão sendo desenvolvidos para:</p>
+
+      <ul>
+        <li><strong>Segurança alimentar:</strong> predição de colheitas e risco de fome em tempo real, integrada a cadeias de distribuição</li>
+        <li><strong>Surtos epidêmicos:</strong> modelos que identificam padrões de propagação viral antes da explosão de casos confirmados</li>
+        <li><strong>Qualidade do ar:</strong> alertas antecipados de episódios críticos de poluição para grupos de risco</li>
+        <li><strong>Desastres naturais:</strong> previsão de deslizamentos de terra em áreas de risco com janela de evacuação viável</li>
+        <li><strong>Energia:</strong> gestão preditiva de redes para evitar apagões em períodos de calor extremo</li>
+      </ul>
+
+      <p>O que une todas essas aplicações é uma premissa simples: os maiores desafios que a humanidade enfrenta — água, saúde, alimentação, clima — são profundamente não-lineares e interdependentes. Sistemas humanos de monitoramento e resposta, por mais bem-intencionados que sejam, são estruturalmente lentos e reativos. A IA, por sua capacidade de processar vastidão de dados e identificar padrões invisíveis ao olho humano, pode pela primeira vez nos tirar desse modo de existir.</p>
+
+      <p>Mas só se distribuirmos seus benefícios de forma equitativa. Caso contrário, teremos a mais sofisticada ferramenta de sobrevivência da história humana funcionando como mais um privilégio dos que já têm.</p>
+
+    </div>
+  </main>
+
+  <aside class="article-sidebar">
+    <div class="sidebar-section">
+      <div class="stat-highlight">
+        <div class="sh-value">92%</div>
+        <div class="sh-label">de precisão na previsão de secas com 14 meses de antecedência</div>
+      </div>
+      <div class="stat-highlight">
+        <div class="sh-value">R$ 3,2bi</div>
+        <div class="sh-label">em economia anual estimada em saúde pública com implantação nacional</div>
+      </div>
+      <div class="stat-highlight">
+        <div class="sh-value">8,8M</div>
+        <div class="sh-label">pessoas protegidas na Grande São Paulo no caso do Cantareira</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Leia também</div>
+      <div class="related-item">
+        <span class="tag tag--muted">Saúde</span>
+        <h4 class="related-headline">IA detecta câncer de mama com 94% de precisão — 2 anos antes dos métodos tradicionais</h4>
+        <div class="related-meta">14 Mai, 2026 · 9 min</div>
+      </div>
+      <div class="related-item">
+        <span class="tag tag--muted">Clima</span>
+        <h4 class="related-headline">O que é o GraphCast e por que a previsão do tempo nunca mais vai ser a mesma</h4>
+        <div class="related-meta">11 Mai, 2026 · 7 min</div>
+      </div>
+      <div class="related-item">
+        <span class="tag tag--muted">Amazônia</span>
+        <h4 class="related-headline">Satélites e IA: como o INPE monitora 5,5 milhões de km² de floresta em tempo real</h4>
+        <div class="related-meta">08 Mai, 2026 · 6 min</div>
+      </div>
+      <div class="related-item">
+        <span class="tag tag--muted">Saneamento</span>
+        <h4 class="related-headline">Saneamento básico e IA: o plano federal para universalizar acesso até 2033</h4>
+        <div class="related-meta">04 Mai, 2026 · 8 min</div>
+      </div>
+    </div>
+
+    <div class="newsletter-box">
+      <div class="nl-title">Ciência que importa</div>
+      <p class="nl-desc">Tecnologia, saúde e meio ambiente — sem simplificação, sem alarmismo.</p>
+      <input class="nl-input" type="email" placeholder="seu@email.com" />
+      <button class="nl-btn">Assinar grátis</button>
+    </div>
+  </aside>
+</div>
+
+<div class="article-footer-strip">
+  <a href="index.html" class="footer-logo">Johnny Coelho <span>A.I</span></a>
+  <div class="footer-copy">© 2026 Johnny Coelho A.I — Todos os direitos reservados.</div>
+</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progress').style.width = scrolled + '%';
+  });
+</script>
+</body>
+</html>

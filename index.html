@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Johnny Coelho A.I — Inteligência Artificial, Negócios & Notícias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #080808;
+      --deep: #111111;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --muted: #555;
+      --mid: #999;
+      --white: #f2f0eb;
+      --pure: #ffffff;
+      --yellow: #FFE000;
+      --yellow-dim: #ccb400;
+
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+
+      --space-xs: 4px;
+      --space-s: 8px;
+      --space-m: 16px;
+      --space-l: 32px;
+      --space-xl: 64px;
+      --space-2xl: 128px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── UTILITY ─── */
+    .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid currentColor;
+    }
+    .tag--yellow { color: var(--yellow); border-color: var(--yellow); }
+    .tag--white { color: var(--white); border-color: var(--border); }
+    .tag--muted { color: var(--mid); border-color: var(--border); }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider--yellow { background: var(--yellow); height: 2px; }
+
+    /* ─── HEADER ─── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-l);
+      height: 60px;
+    }
+
+    .site-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--white);
+    }
+    .site-name span { color: var(--yellow); }
+
+    nav {
+      display: flex;
+      gap: var(--space-l);
+      align-items: center;
+    }
+    nav a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--yellow); }
+    nav a.active { color: var(--yellow); }
+
+    .header-cta {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      background: var(--yellow);
+      color: var(--black);
+      transition: background 0.2s;
+    }
+    .header-cta:hover { background: var(--white); }
+
+    /* ─── TICKER ─── */
+    .ticker {
+      background: var(--yellow);
+      overflow: hidden;
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+    .ticker-label {
+      background: var(--black);
+      color: var(--yellow);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0 16px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 2;
+    }
+    .ticker-track {
+      display: flex;
+      animation: ticker 40s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--black);
+      padding: 0 40px;
+    }
+    .ticker-item::after {
+      content: '◆';
+      margin-left: 40px;
+      opacity: 0.4;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: var(--space-xl) var(--space-l) 0;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-main {
+      padding-right: var(--space-l);
+      border-right: 1px solid var(--border);
+      padding-bottom: var(--space-xl);
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-m);
+      margin-bottom: var(--space-l);
+    }
+    .hero-issue {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--mid);
+      letter-spacing: 0.1em;
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 6vw, 80px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      margin-bottom: var(--space-l);
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--yellow);
+    }
+
+    .hero-dek {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.6;
+      max-width: 560px;
+      margin-bottom: var(--space-l);
+    }
+
+    .hero-read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      border-bottom: 1px solid var(--yellow);
+      padding-bottom: 2px;
+      transition: gap 0.3s;
+    }
+    .hero-read-more:hover { gap: 18px; }
+    .hero-read-more .arrow { font-size: 18px; }
+
+    .hero-image-placeholder {
+      position: relative;
+      background: var(--surface);
+      border-top: 4px solid var(--yellow);
+      height: 340px;
+      margin-top: var(--space-l);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-image-placeholder .img-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--border);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    /* AI Circuit pattern */
+    .hero-image-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.4;
+    }
+    .hero-image-placeholder::after {
+      content: '';
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border: 2px solid var(--yellow);
+      border-radius: 50%;
+      opacity: 0.15;
+    }
+
+    .hero-sidebar {
+      padding-left: var(--space-l);
+      padding-bottom: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .sidebar-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: var(--space-m);
+      padding-bottom: var(--space-m);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-story {
+      padding: var(--space-m) 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .sidebar-story:hover .sidebar-story-headline { color: var(--yellow); }
+
+    .sidebar-story-headline {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: var(--space-xs) 0 var(--space-xs);
+      transition: color 0.2s;
+    }
+    .sidebar-story-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: var(--space-m);
+      padding: var(--space-xl) var(--space-l) var(--space-l);
+    }
+    .section-label h2 {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .section-label .line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── NEWS GRID ─── */
+    .news-grid {
+      padding: 0 var(--space-l) var(--space-xl);
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .news-card {
+      background: var(--black);
+      padding: var(--space-l);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .news-card:hover { background: var(--deep); }
+    .news-card:hover .news-card-headline { color: var(--yellow); }
+
+    .news-card--featured {
+      grid-row: span 2;
+    }
+
+    .news-card-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--surface);
+      margin-bottom: var(--space-m);
+      position: relative;
+      overflow: hidden;
+    }
+    .news-card--featured .news-card-image { aspect-ratio: 4/3; }
+
+    .news-card-image-inner {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--border) 100%);
+    }
+    .news-card-image-inner::before {
+      content: attr(data-icon);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      opacity: 0.15;
+    }
+
+    .news-card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+      margin-bottom: var(--space-s);
+    }
+
+    .news-card-headline {
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: var(--space-s);
+      transition: color 0.2s;
+    }
+    .news-card--featured .news-card-headline { font-size: 26px; }
+    .news-card:not(.news-card--featured) .news-card-headline { font-size: 16px; }
+
+    .news-card-excerpt {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+    .news-card:not(.news-card--featured) .news-card-excerpt { display: none; }
+
+    .news-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: var(--space-m);
+      padding-top: var(--space-m);
+      border-top: 1px solid var(--border);
+    }
+    .news-card-author {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .news-card-time {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* ─── EDUCATION SECTION ─── */
+    .education {
+      background: var(--deep);
+      border-top: 2px solid var(--yellow);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .education-inner {
+      padding: 0 var(--space-l) var(--space-xl);
+    }
+
+    .education-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-l);
+      padding-top: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+    .education-headline {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .education-headline span { color: var(--yellow); }
+    .education-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.7;
+      align-self: end;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-m);
+    }
+
+    .course-card {
+      border: 1px solid var(--border);
+      padding: var(--space-l);
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .course-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--border);
+      transition: background 0.2s;
+    }
+    .course-card:hover { border-color: var(--yellow); transform: translateY(-2px); }
+    .course-card:hover::before { background: var(--yellow); }
+
+    .course-number {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-bottom: var(--space-m);
+    }
+    .course-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: var(--space-s);
+    }
+    .course-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.6;
+      margin-bottom: var(--space-l);
+    }
+    .course-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .course-level {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .course-level--init { color: #4ade80; }
+    .course-level--mid { color: var(--yellow); }
+    .course-level--adv { color: #f87171; }
+
+    .course-duration {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* ─── BUSINESS SECTION ─── */
+    .business {
+      padding: 0 var(--space-l) var(--space-xl);
+    }
+
+    .business-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .business-article {
+      background: var(--black);
+      padding: var(--space-l);
+      display: grid;
+      grid-template-columns: 1fr 80px;
+      gap: var(--space-m);
+      align-items: start;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .business-article:hover { background: var(--deep); }
+    .business-article:hover .ba-headline { color: var(--yellow); }
+
+    .ba-number {
+      font-family: var(--font-mono);
+      font-size: 48px;
+      font-weight: 400;
+      color: var(--border);
+      line-height: 1;
+      text-align: right;
+      padding-top: 4px;
+    }
+
+    .ba-tag { margin-bottom: var(--space-s); }
+    .ba-headline {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: var(--space-s);
+      transition: color 0.2s;
+    }
+    .ba-excerpt {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      background: var(--yellow);
+      padding: var(--space-l) var(--space-l);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+    }
+    .stat {
+      padding: var(--space-m) var(--space-l);
+      border-right: 1px solid rgba(0,0,0,0.15);
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(0,0,0,0.6);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: var(--space-xs);
+    }
+
+    /* ─── NEWSLETTER ─── */
+    .newsletter {
+      padding: var(--space-2xl) var(--space-l);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .newsletter-headline {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+    }
+    .newsletter-headline span { color: var(--yellow); font-style: italic; }
+    .newsletter-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--mid);
+      margin-top: var(--space-m);
+      line-height: 1.6;
+    }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-m);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 0;
+    }
+
+    .form-input {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-right: none;
+      padding: 14px 18px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input::placeholder { color: var(--muted); }
+    .form-input:focus { border-color: var(--yellow); }
+
+    .form-btn {
+      background: var(--yellow);
+      border: 1px solid var(--yellow);
+      padding: 14px 28px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--black);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .form-btn:hover { background: var(--white); border-color: var(--white); }
+
+    .form-note {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--deep);
+      border-top: 2px solid var(--yellow);
+      padding: var(--space-xl) var(--space-l);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-brand .site-name { font-size: 28px; margin-bottom: var(--space-m); }
+    .footer-brand-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.7;
+      max-width: 280px;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: var(--space-m);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--mid);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: var(--space-l);
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+    .footer-legal {
+      display: flex;
+      gap: var(--space-l);
+    }
+    .footer-legal a {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .footer-legal a:hover { color: var(--yellow); }
+
+    /* ─── ENTRANCE ANIMATION ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-main { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); }
+      .hero-sidebar { padding-left: 0; padding-top: var(--space-l); }
+      .news-grid { grid-template-columns: 1fr 1fr; }
+      .news-card--featured { grid-column: span 2; grid-row: span 1; }
+      .courses-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: var(--space-l); }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .header-top { padding: 0 var(--space-m); }
+      nav { display: none; }
+      .hero { padding: var(--space-l) var(--space-m) 0; }
+      .news-grid { grid-template-columns: 1fr; padding: 0 var(--space-m) var(--space-xl); }
+      .news-card--featured { grid-column: span 1; }
+      .news-card:not(.news-card--featured) .news-card-excerpt { display: none; }
+      .courses-grid { grid-template-columns: 1fr; }
+      .education-header { grid-template-columns: 1fr; }
+      .business-grid { grid-template-columns: 1fr; }
+      .newsletter { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .section-label,
+      .education-inner,
+      .business,
+      .newsletter,
+      footer { padding-left: var(--space-m); padding-right: var(--space-m); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-top">
+      <a href="#" class="site-name">Johnny Coelho <span>A.I</span></a>
+      <nav>
+        <a href="#noticias" class="active">Notícias</a>
+        <a href="#educacao">Educação</a>
+        <a href="#negocios">Negócios</a>
+        <a href="#newsletter">Newsletter</a>
+      </nav>
+      <a href="#newsletter" class="header-cta">Assinar</a>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-label">AO VIVO</div>
+    <div class="ticker-track" id="ticker">
+      <span class="ticker-item">OpenAI lança GPT-5 com capacidades multimodais avançadas</span>
+      <span class="ticker-item">Mercado de IA movimenta R$ 48 bilhões no Brasil em 2026</span>
+      <span class="ticker-item">Google DeepMind publica pesquisa sobre IA generativa para medicina</span>
+      <span class="ticker-item">Meta anuncia Llama 4 com suporte nativo ao português</span>
+      <span class="ticker-item">Senado aprova marco regulatório da IA no Brasil</span>
+      <span class="ticker-item">Startups de IA brasileiras recebem investimento recorde no Q1</span>
+      <span class="ticker-item">OpenAI lança GPT-5 com capacidades multimodais avançadas</span>
+      <span class="ticker-item">Mercado de IA movimenta R$ 48 bilhões no Brasil em 2026</span>
+      <span class="ticker-item">Google DeepMind publica pesquisa sobre IA generativa para medicina</span>
+      <span class="ticker-item">Meta anuncia Llama 4 com suporte nativo ao português</span>
+      <span class="ticker-item">Senado aprova marco regulatório da IA no Brasil</span>
+      <span class="ticker-item">Startups de IA brasileiras recebem investimento recorde no Q1</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero fade-up">
+    <div class="hero-main">
+      <div class="hero-meta">
+        <span class="tag tag--yellow">Geopolítica</span>
+        <span class="hero-issue">Edição 047 — 16 de Maio, 2026</span>
+      </div>
+      <h1 class="hero-headline">
+        A Nova Guerra<br />Fria <em>Digital</em>
+      </h1>
+      <p class="hero-dek">
+        Como EUA e China estão partindo a internet ao meio — e o que isso significa para o Brasil, para as empresas e para o futuro da soberania tecnológica.
+      </p>
+      <a href="artigo-geopolitica.html" class="hero-read-more">
+        Leia a matéria completa <span class="arrow">→</span>
+      </a>
+      <div class="hero-image-placeholder">
+        <div class="img-label">Imagem Principal</div>
+      </div>
+    </div>
+
+    <aside class="hero-sidebar">
+      <div class="sidebar-title">Mais lidas hoje</div>
+
+      <a href="artigo-geopolitica.html" class="sidebar-story" style="display:block;">
+        <span class="tag tag--white">Geopolítica</span>
+        <h3 class="sidebar-story-headline">A Nova Guerra Fria Digital: EUA e China dividem a internet</h3>
+        <div class="sidebar-story-meta">Há 30 min · 12 min de leitura</div>
+      </a>
+
+      <a href="artigo-economia.html" class="sidebar-story" style="display:block;">
+        <span class="tag tag--white">Economia</span>
+        <h3 class="sidebar-story-headline">Brasil cresce 4,1% — o melhor PIB em 12 anos</h3>
+        <div class="sidebar-story-meta">Há 1h · 10 min de leitura</div>
+      </a>
+
+      <a href="artigo-tecnologia-saude.html" class="sidebar-story" style="display:block;">
+        <span class="tag tag--white">Tecnologia & Saúde</span>
+        <h3 class="sidebar-story-headline">IA prevê secas com 92% de precisão e 14 meses de antecedência</h3>
+        <div class="sidebar-story-meta">Há 2h · 11 min de leitura</div>
+      </a>
+
+      <div class="sidebar-story">
+        <span class="tag tag--white">Educação</span>
+        <h3 class="sidebar-story-headline">Por que aprender Prompt Engineering vale mais que um MBA agora</h3>
+        <div class="sidebar-story-meta">3h atrás · 7 min de leitura</div>
+      </div>
+
+      <div class="sidebar-story">
+        <span class="tag tag--white">Regulação</span>
+        <h3 class="sidebar-story-headline">UE endurece regras para IA de alto risco a partir de julho</h3>
+        <div class="sidebar-story-meta">8h atrás · 6 min de leitura</div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- NEWS SECTION -->
+  <section id="noticias">
+    <div class="section-label fade-up">
+      <h2>Notícias Recentes</h2>
+      <div class="line"></div>
+      <span class="tag tag--muted">Atualizado agora</span>
+    </div>
+
+    <div class="news-grid fade-up">
+      <!-- Featured — Geopolítica -->
+      <article class="news-card news-card--featured" onclick="location.href='artigo-geopolitica.html'" style="cursor:pointer;">
+        <div class="news-card-image">
+          <div class="news-card-image-inner" data-icon="🌐"></div>
+        </div>
+        <div class="news-card-header">
+          <span class="tag tag--yellow">Geopolítica</span>
+          <span class="tag tag--muted">ANÁLISE ESPECIAL</span>
+        </div>
+        <h3 class="news-card-headline">
+          A Nova Guerra Fria Digital: como EUA e China estão partindo a internet ao meio
+        </h3>
+        <p class="news-card-excerpt">
+          Dois ecossistemas tecnológicos completamente distintos ganham forma — chips, sistemas operacionais, modelos de IA e infraestrutura de nuvem separados. O mundo não vai escolher lados: ele já está escolhendo. E o Brasil está no meio.
+        </p>
+        <div class="news-card-footer">
+          <span class="news-card-author">Marcos Vidal · Editor de Geopolítica</span>
+          <span class="news-card-time">Hoje, 11:30</span>
+        </div>
+      </article>
+
+      <!-- Card 2 — Economia -->
+      <article class="news-card" onclick="location.href='artigo-economia.html'" style="cursor:pointer;">
+        <div class="news-card-image">
+          <div class="news-card-image-inner" data-icon="📈"></div>
+        </div>
+        <div class="news-card-header">
+          <span class="tag tag--white">Economia</span>
+        </div>
+        <h3 class="news-card-headline">Brasil cresce 4,1% enquanto o mundo desacelera. Por quê?</h3>
+        <div class="news-card-footer">
+          <span class="news-card-author">Letícia Drummond</span>
+          <span class="news-card-time">Hoje, 08:45</span>
+        </div>
+      </article>
+
+      <!-- Card 3 — Tecnologia & Saúde -->
+      <article class="news-card" onclick="location.href='artigo-tecnologia-saude.html'" style="cursor:pointer;">
+        <div class="news-card-image">
+          <div class="news-card-image-inner" data-icon="💧"></div>
+        </div>
+        <div class="news-card-header">
+          <span class="tag tag--white">Tecnologia & Saúde</span>
+        </div>
+        <h3 class="news-card-headline">A IA que prevê secas com 92% de precisão — e pode salvar a crise hídrica brasileira</h3>
+        <div class="news-card-footer">
+          <span class="news-card-author">Camila Prates</span>
+          <span class="news-card-time">Hoje, 10:00</span>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="news-card">
+        <div class="news-card-image">
+          <div class="news-card-image-inner" data-icon="🎓"></div>
+        </div>
+        <div class="news-card-header">
+          <span class="tag tag--white">Educação</span>
+        </div>
+        <h3 class="news-card-headline">USP e MIT firmam parceria para pesquisa em IA generativa</h3>
+        <div class="news-card-footer">
+          <span class="news-card-author">Carla Braga</span>
+          <span class="news-card-time">Ontem, 18:30</span>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="news-card">
+        <div class="news-card-image">
+          <div class="news-card-image-inner" data-icon="⚡"></div>
+        </div>
+        <div class="news-card-header">
+          <span class="tag tag--white">Regulação</span>
+        </div>
+        <h3 class="news-card-headline">Marco legal da IA: o que muda para empresas brasileiras em 2026</h3>
+        <div class="news-card-footer">
+          <span class="news-card-author">Rafael Souza</span>
+          <span class="news-card-time">Ontem, 14:00</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar fade-up">
+    <div class="stat">
+      <div class="stat-value">847K</div>
+      <div class="stat-label">Leitores mensais</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">1.2M</div>
+      <div class="stat-label">Artigos publicados</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">340+</div>
+      <div class="stat-label">Horas de conteúdo</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">98%</div>
+      <div class="stat-label">Satisfação dos alunos</div>
+    </div>
+  </div>
+
+  <!-- EDUCATION SECTION -->
+  <section id="educacao" class="education">
+    <div class="education-inner">
+      <div class="section-label fade-up" style="padding-left:0; padding-right:0;">
+        <h2>Educação em IA</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="education-header fade-up">
+        <h2 class="education-headline">
+          Aprenda IA<br />do jeito<br /><span>certo.</span>
+        </h2>
+        <p class="education-desc">
+          Cursos desenvolvidos por especialistas com aplicação prática e imediata no mercado. Do básico ao avançado — em português, com foco em negócios reais.
+        </p>
+      </div>
+
+      <div class="courses-grid">
+        <div class="course-card fade-up">
+          <div class="course-number">01 — FUNDAMENTOS</div>
+          <h3 class="course-title">Prompt Engineering Essencial</h3>
+          <p class="course-desc">Domine a arte de comunicar com modelos de linguagem. Aprenda estruturas, técnicas avançadas e como obter resultados consistentes.</p>
+          <div class="course-meta">
+            <span class="course-level course-level--init">● Iniciante</span>
+            <span class="course-duration">8 horas · Grátis</span>
+          </div>
+        </div>
+
+        <div class="course-card fade-up">
+          <div class="course-number">02 — APLICADO</div>
+          <h3 class="course-title">IA para Gestores de Negócios</h3>
+          <p class="course-desc">Como implementar ferramentas de IA na sua empresa sem depender do time técnico. Casos reais, ROI mensurável e estratégia.</p>
+          <div class="course-meta">
+            <span class="course-level course-level--mid">● Intermediário</span>
+            <span class="course-duration">12 horas · R$ 297</span>
+          </div>
+        </div>
+
+        <div class="course-card fade-up">
+          <div class="course-number">03 — AVANÇADO</div>
+          <h3 class="course-title">Construindo Agentes com LLMs</h3>
+          <p class="course-desc">Desenvolva agentes autônomos do zero com Python, APIs e frameworks como LangChain e CrewAI. Do conceito ao deploy.</p>
+          <div class="course-meta">
+            <span class="course-level course-level--adv">● Avançado</span>
+            <span class="course-duration">24 horas · R$ 597</span>
+          </div>
+        </div>
+
+        <div class="course-card fade-up">
+          <div class="course-number">04 — ESTRATÉGIA</div>
+          <h3 class="course-title">Transformação Digital com IA</h3>
+          <p class="course-desc">Para líderes e C-levels: como estruturar uma estratégia de IA que gera vantagem competitiva sustentável e evita os erros comuns.</p>
+          <div class="course-meta">
+            <span class="course-level course-level--adv">● Avançado</span>
+            <span class="course-duration">16 horas · R$ 897</span>
+          </div>
+        </div>
+
+        <div class="course-card fade-up">
+          <div class="course-number">05 — CRIAÇÃO</div>
+          <h3 class="course-title">IA Generativa para Marketing</h3>
+          <p class="course-desc">Imagens, textos, vídeos e automações com IA. Aprenda a produzir conteúdo de alto impacto em fração do tempo.</p>
+          <div class="course-meta">
+            <span class="course-level course-level--mid">● Intermediário</span>
+            <span class="course-duration">10 horas · R$ 197</span>
+          </div>
+        </div>
+
+        <div class="course-card fade-up">
+          <div class="course-number">06 — DADOS</div>
+          <h3 class="course-title">Machine Learning para Analistas</h3>
+          <p class="course-desc">Fundamentos de ML aplicados à análise de dados de negócios. Modelos preditivos, visualização e interpretação de resultados.</p>
+          <div class="course-meta">
+            <span class="course-level course-level--mid">● Intermediário</span>
+            <span class="course-duration">20 horas · R$ 497</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUSINESS SECTION -->
+  <section id="negocios">
+    <div class="section-label fade-up">
+      <h2>Inteligência de Negócios</h2>
+      <div class="line"></div>
+    </div>
+
+    <div class="business business-grid fade-up">
+      <article class="business-article">
+        <div>
+          <div class="ba-tag"><span class="tag tag--yellow">Estratégia</span></div>
+          <h3 class="ba-headline">Como o Itaú economizou R$ 180 milhões com IA em atendimento ao cliente</h3>
+          <p class="ba-excerpt">O caso de uso que está sendo replicado por bancos de todo o país — automação inteligente sem perder a humanização.</p>
+        </div>
+        <div class="ba-number">01</div>
+      </article>
+
+      <article class="business-article">
+        <div>
+          <div class="ba-tag"><span class="tag tag--yellow">Inovação</span></div>
+          <h3 class="ba-headline">As 10 profissões que mais crescem com o avanço da IA no Brasil</h3>
+          <p class="ba-excerpt">Engenheiro de prompts, curador de dados e arquiteto de agentes: o mapa do mercado de trabalho em 2026.</p>
+        </div>
+        <div class="ba-number">02</div>
+      </article>
+
+      <article class="business-article">
+        <div>
+          <div class="ba-tag"><span class="tag tag--yellow">Mercado</span></div>
+          <h3 class="ba-headline">Varejistas que adotaram IA preditiva crescem 3x mais que concorrentes</h3>
+          <p class="ba-excerpt">Pesquisa com 400 empresas revela o impacto real da personalização algorítmica nas vendas e retenção de clientes.</p>
+        </div>
+        <div class="ba-number">03</div>
+      </article>
+
+      <article class="business-article">
+        <div>
+          <div class="ba-tag"><span class="tag tag--yellow">Gestão</span></div>
+          <h3 class="ba-headline">O guia definitivo para implementar IA sem travar sua equipe</h3>
+          <p class="ba-excerpt">Resistência à mudança é o maior obstáculo — não a tecnologia. Veja o framework que funciona em empresas brasileiras.</p>
+        </div>
+        <div class="ba-number">04</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section id="newsletter" class="newsletter fade-up">
+    <div>
+      <h2 class="newsletter-headline">
+        Fique à<br />frente do<br /><span>futuro.</span>
+      </h2>
+      <p class="newsletter-sub">
+        Toda semana: as notícias que importam sobre IA, análises aprofundadas de negócios e curadoria de cursos gratuitos — direto no seu e-mail.
+      </p>
+    </div>
+    <div class="newsletter-form">
+      <div class="form-row">
+        <input class="form-input" type="email" placeholder="seu@email.com" />
+        <button class="form-btn">Assinar grátis</button>
+      </div>
+      <div class="form-note">Sem spam. Cancele quando quiser. Já somos +47.000 assinantes.</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="site-name">Johnny Coelho <span>A.I</span></div>
+        <p class="footer-brand-desc">
+          O portal de referência em Inteligência Artificial, negócios e educação tecnológica no Brasil. Conteúdo sério, linguagem humana.
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Notícias</div>
+        <ul class="footer-links">
+          <li><a href="#">Inteligência Artificial</a></li>
+          <li><a href="#">Tecnologia</a></li>
+          <li><a href="#">Regulação</a></li>
+          <li><a href="#">Startups</a></li>
+          <li><a href="#">Internacional</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Educação</div>
+        <ul class="footer-links">
+          <li><a href="#">Cursos Gratuitos</a></li>
+          <li><a href="#">Certificações</a></li>
+          <li><a href="#">Tutoriais</a></li>
+          <li><a href="#">Glossário de IA</a></li>
+          <li><a href="#">Para Empresas</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Johnny Coelho</div>
+        <ul class="footer-links">
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Newsletter</a></li>
+          <li><a href="#">Anuncie</a></li>
+          <li><a href="#">Contato</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Johnny Coelho A.I — Todos os direitos reservados.</div>
+      <nav class="footer-legal">
+        <a href="#">Privacidade</a>
+        <a href="#">Termos</a>
+        <a href="#">Cookies</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Fade-up on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // stagger children
+          const children = entry.target.querySelectorAll('.course-card, .business-article, .news-card, .sidebar-story');
+          children.forEach((el, i) => {
+            setTimeout(() => el.style.opacity = '1', i * 80);
+          });
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Init first fade-up elements
+    setTimeout(() => {
+      document.querySelectorAll('.hero.fade-up').forEach(el => el.classList.add('visible'));
+    }, 100);
+
+    // Active nav on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        if (window.scrollY >= section.offsetTop - 100) current = section.id;
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+      });
+    });
+
+    // Newsletter form
+    document.querySelector('.form-btn').addEventListener('click', () => {
+      const input = document.querySelector('.form-input');
+      if (input.value && input.value.includes('@')) {
+        input.value = '';
+        input.placeholder = 'Obrigado! Verifique seu e-mail.';
+        input.style.borderColor = '#FFE000';
+      } else {
+        input.style.borderColor = '#f87171';
+        input.placeholder = 'Digite um e-mail válido';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brasil 2026: PIB de 4,1% — Johnny Coelho A.I</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #080808; --deep: #111111; --surface: #1a1a1a; --border: #2a2a2a;
+      --muted: #555; --mid: #999; --white: #f2f0eb; --yellow: #FFE000;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    header { position: sticky; top: 0; z-index: 100; background: var(--black); border-bottom: 1px solid var(--border); }
+    .header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 60px; }
+    .site-name { font-family: var(--font-display); font-size: 22px; font-weight: 900; letter-spacing: -0.02em; }
+    .site-name span { color: var(--yellow); }
+    nav { display: flex; gap: 32px; }
+    nav a { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); transition: color 0.2s; }
+    nav a:hover { color: var(--yellow); }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mid); transition: color 0.2s; }
+    .back-link:hover { color: var(--yellow); }
+
+    .tag { display: inline-block; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; border: 1px solid currentColor; }
+    .tag--yellow { color: var(--yellow); border-color: var(--yellow); }
+    .tag--white { color: var(--white); border-color: var(--border); }
+    .tag--muted { color: var(--mid); border-color: var(--border); }
+
+    .article-hero { padding: 64px 32px 0; max-width: 1200px; margin: 0 auto; }
+    .article-hero-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .article-date { font-family: var(--font-mono); font-size: 11px; color: var(--mid); letter-spacing: 0.1em; }
+    .article-headline { font-family: var(--font-display); font-size: clamp(38px, 5.5vw, 72px); font-weight: 900; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 24px; }
+    .article-headline em { font-style: italic; color: var(--yellow); }
+    .article-dek { font-size: 19px; font-weight: 300; color: var(--mid); line-height: 1.65; max-width: 700px; margin-bottom: 32px; }
+    .article-byline { display: flex; align-items: center; gap: 16px; padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .byline-avatar { width: 40px; height: 40px; background: var(--surface); border: 2px solid var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--yellow); flex-shrink: 0; }
+    .byline-name { font-size: 14px; font-weight: 600; }
+    .byline-role { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.1em; margin-top: 2px; }
+    .byline-reading { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.08em; margin-left: auto; }
+
+    .article-cover { width: 100%; aspect-ratio: 16/7; background: var(--surface); position: relative; overflow: hidden; }
+    .article-cover-inner { position: absolute; inset: 0; background: linear-gradient(160deg, #0d1117 0%, #1a1a2e 50%, #111 100%); display: flex; align-items: center; justify-content: center; }
+    .cover-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.3; }
+    .cover-icon { font-size: 96px; opacity: 0.12; z-index: 1; }
+    .cover-accent { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--yellow); }
+    .cover-caption { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; padding: 8px 0; }
+
+    .article-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 1fr 320px; gap: 64px; }
+    .article-main { padding: 48px 0 96px; }
+    .article-body { font-size: 17px; font-weight: 300; line-height: 1.8; color: #d4d0c8; }
+    .article-body p { margin-bottom: 24px; }
+    .article-body h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--white); line-height: 1.2; margin: 48px 0 20px; letter-spacing: -0.01em; }
+    .article-body strong { color: var(--white); font-weight: 600; }
+
+    .pullquote { border-left: 3px solid var(--yellow); padding: 20px 28px; margin: 40px 0; background: var(--deep); }
+    .pullquote p { font-family: var(--font-display); font-size: 22px; font-style: italic; line-height: 1.4; color: var(--white); margin: 0 0 12px; }
+    .pullquote cite { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    .data-box { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--yellow); padding: 28px; margin: 40px 0; }
+    .data-box-title { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 20px; }
+    .data-row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .data-row:last-child { border-bottom: none; }
+    .data-label { font-size: 13px; color: var(--mid); }
+    .data-value { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--white); }
+    .data-sub { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-left: 8px; }
+
+    /* CHART */
+    .chart-box { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--yellow); padding: 28px; margin: 40px 0; }
+    .chart-title { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 24px; }
+    .chart-bars { display: flex; align-items: flex-end; gap: 12px; height: 120px; }
+    .chart-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+    .chart-bar { width: 100%; background: var(--border); position: relative; transition: background 0.3s; border-radius: 2px 2px 0 0; }
+    .chart-bar.highlight { background: var(--yellow); }
+    .chart-bar-val { font-family: var(--font-mono); font-size: 10px; color: var(--mid); }
+    .chart-bar-val.highlight { color: var(--yellow); font-weight: 500; }
+    .chart-bar-label { font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 0.05em; text-align: center; }
+
+    .article-sidebar { padding: 48px 0 96px; }
+    .sidebar-section { margin-bottom: 40px; }
+    .sidebar-section-title { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .related-item { padding: 16px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .related-item:hover .related-headline { color: var(--yellow); }
+    .related-headline { font-family: var(--font-display); font-size: 15px; font-weight: 700; line-height: 1.3; margin: 6px 0 4px; transition: color 0.2s; }
+    .related-meta { font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
+
+    .newsletter-box { background: var(--deep); border: 1px solid var(--border); border-top: 3px solid var(--yellow); padding: 24px; }
+    .nl-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
+    .nl-desc { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.6; margin-bottom: 16px; }
+    .nl-input { width: 100%; background: var(--surface); border: 1px solid var(--border); padding: 10px 14px; font-family: var(--font-body); font-size: 13px; color: var(--white); margin-bottom: 8px; outline: none; }
+    .nl-input:focus { border-color: var(--yellow); }
+    .nl-input::placeholder { color: var(--muted); }
+    .nl-btn { width: 100%; background: var(--yellow); border: none; padding: 10px; font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--black); cursor: pointer; transition: background 0.2s; }
+    .nl-btn:hover { background: var(--white); }
+
+    .article-footer-strip { background: var(--deep); border-top: 2px solid var(--yellow); padding: 32px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-logo { font-family: var(--font-display); font-size: 20px; font-weight: 900; }
+    .footer-logo span { color: var(--yellow); }
+    .footer-copy { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
+    .reading-progress { position: fixed; top: 60px; left: 0; height: 2px; background: var(--yellow); width: 0%; z-index: 200; transition: width 0.1s; }
+
+    @media (max-width: 900px) {
+      .article-wrapper { grid-template-columns: 1fr; }
+      .article-sidebar { padding-top: 0; }
+      .article-hero, .article-wrapper { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="reading-progress" id="progress"></div>
+
+<header>
+  <div class="header-top">
+    <a href="index.html" class="site-name">Johnny Coelho <span>A.I</span></a>
+    <nav>
+      <a href="index.html#noticias">Notícias</a>
+      <a href="index.html#educacao">Educação</a>
+      <a href="index.html#negocios">Negócios</a>
+      <a href="index.html#newsletter">Newsletter</a>
+    </nav>
+    <a href="index.html" class="back-link">← Voltar</a>
+  </div>
+</header>
+
+<div class="article-hero">
+  <div class="article-hero-meta">
+    <span class="tag tag--yellow">Economia</span>
+    <span class="tag tag--white">Análise</span>
+    <span class="article-date">16 de Maio, 2026 · Atualizado às 08:45</span>
+  </div>
+  <h1 class="article-headline">
+    Brasil cresce <em>4,1%</em><br />
+    enquanto o mundo<br />
+    desacelera. Por quê?
+  </h1>
+  <p class="article-dek">
+    No maior paradoxo econômico da década, o Brasil registra seu melhor crescimento em 12 anos enquanto EUA, Europa e China perdem força. A IA tem um papel central nessa história — e ninguém ainda sabe exatamente qual.
+  </p>
+  <div class="article-byline">
+    <div class="byline-avatar">L</div>
+    <div>
+      <div class="byline-name">Letícia Drummond</div>
+      <div class="byline-role">Editora de Economia & Mercados</div>
+    </div>
+    <div class="byline-reading">10 min de leitura</div>
+  </div>
+</div>
+
+<div class="article-cover">
+  <div class="article-cover-inner">
+    <div class="cover-grid"></div>
+    <div class="cover-icon">📈</div>
+  </div>
+  <div class="cover-accent"></div>
+</div>
+<div style="max-width:1200px;margin:0 auto;padding:0 32px;">
+  <div class="cover-caption">Bovespa registra máxima histórica em abril de 2026. Foto: Agência Reuters</div>
+</div>
+
+<div class="article-wrapper">
+  <main class="article-main">
+    <div class="article-body">
+
+      <p>Os números do IBGE divulgados na última semana deveriam ser impossíveis. O Brasil cresceu 4,1% no primeiro trimestre de 2026 — o melhor desempenho desde 2012 — enquanto os Estados Unidos registraram expansão de apenas 1,8%, a Zona do Euro patinou nos 0,9% e a China, pela primeira vez em décadas, não bateu sua própria meta oficial de crescimento.</p>
+
+      <p>O que está acontecendo? A resposta curta: uma confluência de fatores estruturais, cíclicos e tecnológicos que raramente se alinham. A resposta longa é muito mais interessante.</p>
+
+      <h2>Agronegócio turbinado por IA preditiva</h2>
+
+      <p>O setor que mais surpreendeu analistas foi o agronegócio, responsável por 1,8 ponto percentual do crescimento total. Mas não foi apenas o clima favorável — foi a adoção massiva de tecnologias de IA preditiva por produtores rurais brasileiros que fez a diferença.</p>
+
+      <p>Empresas como Solinftec, John Deere Brasil e a startup paranaense CropIA conseguiram reduzir perdas por pragas em até 34% usando modelos de visão computacional treinados em imagens de satélite e dados de sensores de solo. O resultado direto foi uma safra 19% acima do esperado pelos modelos tradicionais do governo.</p>
+
+      <div class="pullquote">
+        <p>"Estamos vivendo a primeira revolução agrícola verdadeiramente orientada por dados. E o Brasil, por ter o agronegócio como pilar central, é quem mais se beneficia neste momento."</p>
+        <cite>— Roberto Campos Neto, em palestra na Febraban Tech 2026</cite>
+      </div>
+
+      <p>A ironia é que essa digitalização foi acelerada pelo próprio câmbio. Com o real desvalorizado frente ao dólar entre 2023 e 2025, produtores rurais — que faturam em dólares mas pagam custos em reais — tiveram margens extraordinárias que reinvestiram em tecnologia. O efeito positivo se materializou justamente agora.</p>
+
+      <h2>O papel inesperado do setor de serviços digitais</h2>
+
+      <p>Mais surpreendente que o agro foi o crescimento do setor de serviços, especialmente os digitais. O Brasil agora exporta software e serviços de IA em escala relevante — algo inimaginável há cinco anos.</p>
+
+      <p>Empresas como Totvs, Stefanini e uma nova safra de startups especializadas em IA para mercados emergentes faturam hoje em mercados como México, Colômbia, África Lusófona e até Europa Oriental. O diferencial competitivo brasileiro: desenvolvedores altamente qualificados com custo até 60% menor que americanos ou europeus, e uma proficiência crescente em modelos de linguagem adaptados para o português e o espanhol.</p>
+
+      <div class="chart-box">
+        <div class="chart-title">Crescimento do PIB — Comparativo Global Q1 2026 (%)</div>
+        <div class="chart-bars">
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val highlight">4.1%</div>
+            <div class="chart-bar highlight" style="height:100%"></div>
+            <div class="chart-bar-label">Brasil</div>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">3.2%</div>
+            <div class="chart-bar" style="height:78%"></div>
+            <div class="chart-bar-label">Índia</div>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">2.8%</div>
+            <div class="chart-bar" style="height:68%"></div>
+            <div class="chart-bar-label">EAU</div>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">1.8%</div>
+            <div class="chart-bar" style="height:44%"></div>
+            <div class="chart-bar-label">EUA</div>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">1.4%</div>
+            <div class="chart-bar" style="height:34%"></div>
+            <div class="chart-bar-label">China</div>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">0.9%</div>
+            <div class="chart-bar" style="height:22%"></div>
+            <div class="chart-bar-label">Europa</div>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">−0.4%</div>
+            <div class="chart-bar" style="height:10%; background:#f87171;"></div>
+            <div class="chart-bar-label">Alemanha</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>O mercado de trabalho que ninguém esperava</h2>
+
+      <p>Contrariando a narrativa dominante de que a IA destruiria empregos, o Brasil viu a taxa de desemprego cair para 8,2% — o menor patamar desde o início da série histórica moderna, em 2012. A explicação está em onde os empregos foram criados.</p>
+
+      <p>A IA, no Brasil, não substituiu em massa trabalhadores em setores de baixa renda como se esperava. Em vez disso, criou uma enorme demanda por profissionais capazes de operar, supervisionar e treinar sistemas de IA. E essa demanda, por ser nova e urgente, derrubou barreiras tradicionais de entrada no mercado formal.</p>
+
+      <p><strong>Operadores de agentes de IA, curadoras de dados, supervisores de automação</strong> — funções que não existiam em 2023 — hoje somam mais de 340 mil postos formais de trabalho no Brasil, segundo dados do CAGED. E 61% desses trabalhadores não tinham ensino superior completo quando foram contratados.</p>
+
+      <div class="data-box">
+        <div class="data-box-title">Indicadores econômicos — Brasil Q1 2026</div>
+        <div class="data-row">
+          <span class="data-label">Crescimento do PIB (anualizado)</span>
+          <span class="data-value">4,1%<span class="data-sub">vs 1,2% em Q1 2025</span></span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Taxa de desemprego</span>
+          <span class="data-value">8,2%<span class="data-sub">mínima histórica</span></span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Exportações de software e serviços digitais</span>
+          <span class="data-value">US$ 18bi<span class="data-sub">+67% a/a</span></span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Novas startups de IA registradas (Q1)</span>
+          <span class="data-value">1.247</span>
+        </div>
+      </div>
+
+      <h2>Os riscos que ninguém quer falar</h2>
+
+      <p>Seria irresponsável terminar esta análise sem mencionar o lado B. O crescimento brasileiro, por mais impressionante que seja, repousa sobre bases que podem ser mais frágeis do que parecem.</p>
+
+      <p>Primeiro, a dependência de commodities continua enorme. O agronegócio turbinado por IA ainda é, no fim das contas, agronegócio — sensível a clima, pragas globais e variações de preço nos mercados internacionais. Uma seca severa ou uma queda nos preços de soja e minério de ferro pode desfazer parte dos ganhos rapidamente.</p>
+
+      <p>Segundo, a distribuição dos benefícios do crescimento ainda é profundamente desigual. Os estados do Sul e Sudeste concentram mais de 80% dos novos empregos formais no setor digital. O Norte e Nordeste ainda aguardam que essa onda chegue com força — e a infraestrutura de conectividade ainda é o principal obstáculo.</p>
+
+      <p>Terceiro, e mais preocupante para economistas que acompanham o tema: a dependência tecnológica de plataformas estrangeiras de IA cria um novo tipo de vulnerabilidade. Quando o PIB começa a depender de modelos de IA operados por empresas americanas, qualquer mudança de política, precificação ou acesso pode ter impacto macroeconômico.</p>
+
+      <div class="pullquote">
+        <p>"O Brasil está crescendo com IA, mas não está crescendo IA. Há uma diferença enorme entre adotar tecnologia e desenvolvê-la. Precisamos da segunda para que o crescimento seja sustentável."</p>
+        <cite>— Prof. Dra. Ana Moser, Diretora do Instituto de Economia Digital da USP</cite>
+      </div>
+
+      <h2>O que esperar para o restante de 2026</h2>
+
+      <p>O consenso entre economistas é de que o Brasil deve encerrar 2026 com crescimento entre 3,6% e 4,4%, dependendo do comportamento do câmbio, da taxa de juros e da demanda global por commodities. Ainda seria um desempenho excepcional em qualquer cenário histórico.</p>
+
+      <p>A grande questão não é se o Brasil vai crescer em 2026. É se vai usar esse momento de prosperidade para construir a base que sustente o crescimento nas próximas décadas — investimento em educação técnica, infraestrutura digital fora dos grandes centros e, sobretudo, desenvolvimento de capacidade tecnológica própria em inteligência artificial.</p>
+
+      <p>Ciclos econômicos favoráveis são raros. E o Brasil, historicamente, tem um talento particular para desperdiçá-los.</p>
+
+    </div>
+  </main>
+
+  <aside class="article-sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Leia também</div>
+      <div class="related-item">
+        <span class="tag tag--muted">Mercados</span>
+        <h4 class="related-headline">Bovespa bate 200 mil pontos pela primeira vez — o que está por trás da alta</h4>
+        <div class="related-meta">15 Mai, 2026 · 6 min</div>
+      </div>
+      <div class="related-item">
+        <span class="tag tag--muted">Agro</span>
+        <h4 class="related-headline">Como sensores de solo e IA estão mudando o plantio de soja no Mato Grosso</h4>
+        <div class="related-meta">13 Mai, 2026 · 8 min</div>
+      </div>
+      <div class="related-item">
+        <span class="tag tag--muted">Trabalho</span>
+        <h4 class="related-headline">As 10 profissões que mais crescem com IA no Brasil — e quanto pagam</h4>
+        <div class="related-meta">10 Mai, 2026 · 7 min</div>
+      </div>
+      <div class="related-item">
+        <span class="tag tag--muted">Startups</span>
+        <h4 class="related-headline">Por que o Vale do Silício está olhando para Florianópolis e Recife</h4>
+        <div class="related-meta">07 Mai, 2026 · 5 min</div>
+      </div>
+    </div>
+
+    <div class="newsletter-box">
+      <div class="nl-title">Economia sem enrolação</div>
+      <p class="nl-desc">Análises semanais sobre o Brasil e o mundo — em 5 minutos de leitura.</p>
+      <input class="nl-input" type="email" placeholder="seu@email.com" />
+      <button class="nl-btn">Assinar grátis</button>
+    </div>
+  </aside>
+</div>
+
+<div class="article-footer-strip">
+  <a href="index.html" class="footer-logo">Johnny Coelho <span>A.I</span></a>
+  <div class="footer-copy">© 2026 Johnny Coelho A.I — Todos os direitos reservados.</div>
+</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progress').style.width = scrolled + '%';
+  });
+</script>
+</body>
+</html>
